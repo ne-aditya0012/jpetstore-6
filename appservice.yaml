@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jpetstore
+  namespace: jpetstore
+spec:
+ selector:
+   app: jpetstore
+ ports:
+ - port: 80
+   targetPort: 8080
+ type: ClusterIP
