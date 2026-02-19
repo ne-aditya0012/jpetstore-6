@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jpetstore
+  namespace: jpetstore
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jpetstore
+  template:
+    metadata:
+      labels:
+        app: jpetstore
+    spec:
+      containers:
+      - name: jpetstore
+        image: adsne19/jpetstore-6:v1
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+          requests:
+            cpu: "250m"
+            memory: "500Mi"
+        env:
+        - name: DB_HOST
+          value: mysql
+        - name: DB_NAME
+          value: jpetstore
+        - name: DB_USER
+          value: jpetstore
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
